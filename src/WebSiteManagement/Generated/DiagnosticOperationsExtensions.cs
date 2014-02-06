@@ -25,7 +25,7 @@ using System.Linq;
 namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// Operations for managing the diagnostics settings.
+    /// TBD.
     /// </summary>
     public static partial class DiagnosticOperationsExtensions
     {

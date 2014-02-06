@@ -28,6 +28,12 @@ using Microsoft.WindowsAzure.Management.VirtualNetworks.Models;
 
 namespace Microsoft.WindowsAzure.Management.VirtualNetworks
 {
+    /// <summary>
+    /// The Service Management API includes operations for managing the virtual
+    /// networks your subscription.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157182.aspx for
+    /// more information)
+    /// </summary>
     public static partial class ClientRootCertificateOperationsExtensions
     {
         /// <summary>

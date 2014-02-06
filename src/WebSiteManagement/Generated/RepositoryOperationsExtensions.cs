@@ -31,7 +31,7 @@ using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// Operations for managing the repository.
+    /// TBD.
     /// </summary>
     public static partial class RepositoryOperationsExtensions
     {

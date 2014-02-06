@@ -29,9 +29,6 @@ using Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models;
 
 namespace Microsoft.WindowsAzure.Management.Monitoring.Alerts
 {
-    /// <summary>
-    /// Operations for managing the alert rules.
-    /// </summary>
     public static partial class RuleOperationsExtensions
     {
         /// <param name='operations'>

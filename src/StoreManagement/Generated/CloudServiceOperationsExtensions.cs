@@ -29,8 +29,8 @@ using Microsoft.WindowsAzure.Management.Store.Models;
 namespace Microsoft.WindowsAzure.Management.Store
 {
     /// <summary>
-    /// Provides REST operations for working with cloud services from the
-    /// Windows Azure store service.
+    /// The Windows Azure Store API is a REST API for managing Windows Azure
+    /// Store add-ins.
     /// </summary>
     public static partial class CloudServiceOperationsExtensions
     {

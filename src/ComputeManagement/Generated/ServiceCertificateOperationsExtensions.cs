@@ -30,9 +30,11 @@ using Microsoft.WindowsAzure.Management.Compute.Models;
 namespace Microsoft.WindowsAzure.Management.Compute
 {
     /// <summary>
-    /// Operations for managing service certificates for your subscription.
-    /// (see
-    /// http://msdn.microsoft.com/en-us/library/windowsazure/ee795178.aspx for
+    /// The Service Management API provides programmatic access to much of the
+    /// functionality available through the Management Portal. The Service
+    /// Management API is a REST API. All API operations are performed over
+    /// SSL and mutually authenticated using X.509 v3 certificates.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460799.aspx for
     /// more information)
     /// </summary>
     public static partial class ServiceCertificateOperationsExtensions

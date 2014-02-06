@@ -28,6 +28,15 @@ using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
 namespace Microsoft.WindowsAzure.Management.ExpressRoute
 {
+    /// <summary>
+    /// The Express Route API provides programmatic access to the functionality
+    /// needed by the customer to set up Dedicated Circuits and Dedicated
+    /// Circuit Links. The Express Route Customer API is a REST API. All API
+    /// operations are performed over SSL and mutually authenticated using
+    /// X.509 v3 certificates.  (see
+    /// http://msdn.microsoft.com/en-us/library/windowsazure/ee460799.aspx for
+    /// more information)
+    /// </summary>
     public static partial class BgpPeeringOperationsExtensions
     {
         /// <summary>

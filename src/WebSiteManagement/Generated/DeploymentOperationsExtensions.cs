@@ -29,7 +29,7 @@ using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// Operations for managing the repositories.
+    /// TBD.
     /// </summary>
     public static partial class DeploymentOperationsExtensions
     {

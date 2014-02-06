@@ -30,7 +30,7 @@ using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 namespace Microsoft.WindowsAzure.WebSitesExtensions
 {
     /// <summary>
-    /// Operations for managing the settings.
+    /// TBD.
     /// </summary>
     public static partial class SettingsOperationsExtensions
     {
