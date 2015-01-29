@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) Microsoft.  All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@ using System.Resources;
 [assembly: AssemblyDescription("Provides express route management capabilities to developers. Create, delete, list, retrieve dedicated circuits, bgp peerings, dedicated circuit links, and more.")]
 
 [assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.18.0.0")]
+[assembly: AssemblyFileVersion("0.18.0.30127")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]

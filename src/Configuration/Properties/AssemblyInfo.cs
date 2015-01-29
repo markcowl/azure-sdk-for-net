@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright Microsoft Corporation
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,5 +32,5 @@ using System.Resources;
 [assembly: Guid("3a4d8eda-db18-4c6f-9f84-4576bb255f30")]
 
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.3.0")]
+[assembly: AssemblyFileVersion("2.0.3.30127")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

@@ -15,7 +15,7 @@
 
 using System;
 
-namespace Microsoft.Azure.Common.OData
+namespace Microsoft.Azure.Insights.OData
 {
     /// <summary>
     /// Parameter attribute used with OData filters.

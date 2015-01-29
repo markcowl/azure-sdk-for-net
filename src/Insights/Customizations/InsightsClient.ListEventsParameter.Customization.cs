@@ -14,7 +14,7 @@
 //
 
 using System;
-using Microsoft.Azure.Common.OData;
+using Microsoft.Azure.Insights.OData;
 using Microsoft.Azure.Insights.Models;
 
 namespace Microsoft.Azure.Insights

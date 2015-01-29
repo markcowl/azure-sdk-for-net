@@ -19,7 +19,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Microsoft.Azure.Common.OData
+namespace Microsoft.Azure.Insights.OData
 {
     /// <summary>
     /// Expression visitor class that generates OData style $filter parameter.
