@@ -17,26 +17,31 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Rest;
 
 namespace Microsoft.Azure.Common.Authentication
 {
     public class AccessTokenCredential : SubscriptionCloudCredentials
     {
         private readonly Guid subscriptionId;
-        private readonly IAccessToken token;
+        private readonly ITokenProvider tokenProvider;
 
-        public AccessTokenCredential(Guid subscriptionId, IAccessToken token)
+        public AccessTokenCredential(Guid subscriptionId, ITokenProvider provider)
         {
             this.subscriptionId = subscriptionId;
-            this.token = token;
-            this.TenantID = token.TenantId;
+            this.tokenProvider = provider;
+        }
+        
+        public AccessTokenCredential(ITokenProvider provider)
+        {
+            this.subscriptionId = Guid.NewGuid();
+            this.tokenProvider = provider;
         }
         
         public override Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            token.AuthorizeRequest((tokenType, tokenValue) => {
-                request.Headers.Authorization = new AuthenticationHeaderValue(tokenType, tokenValue);
-            });
+            var authenticationHeader = tokenProvider.GetAuthenticationHeaderAsync(cancellationToken).Result;
+            request.Headers.Authorization = authenticationHeader;
             return base.ProcessHttpRequestAsync(request, cancellationToken);
         }
 
@@ -44,7 +49,5 @@ namespace Microsoft.Azure.Common.Authentication
         {
             get { return subscriptionId.ToString(); }
         }
-
-        public string TenantID { get; set; }
     }
 }

@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Globalization;
 using Microsoft.Azure.Common.Authentication.Models;
 using Microsoft.Azure.Common.Authentication.Properties;
 using System;
@@ -30,28 +31,188 @@ namespace Microsoft.Azure.Common.Authentication.Factories
 
         public AuthenticationFactory()
         {
-            TokenProvider = new AdalTokenProvider();
         }
 
-        public ITokenProvider TokenProvider { get; set; }
+        internal ITokenProvider TokenProvider { get; set; }
 
-        public IAccessToken Authenticate(
+        public ITokenProvider Login(
             AzureAccount account, 
             AzureEnvironment environment, 
             string tenant, 
-            SecureString password, 
             ShowDialog promptBehavior,
+            TokenCache cache,
             AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
         {
-            var configuration = GetAdalConfiguration(environment, tenant, resourceId);
-            TracingAdapter.Information(Resources.AdalAuthConfigurationTrace, configuration.AdDomain, configuration.AdEndpoint, 
-                configuration.ClientId, configuration.ClientRedirectUri, configuration.ResourceClientUri, configuration.ValidateAuthority);
-            var token = TokenProvider.GetAccessToken(configuration, promptBehavior, account.Id, password, account.Type);
-            account.Id = token.UserId;
-            return token;
+            if (environment == null)
+            {
+                environment = AzureEnvironment.PublicEnvironments["AzureCloud"];
+            }
+
+            var adEnvironment = new ActiveDirectoryEnvironment
+            {
+                AuthenticationEndpoint = environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ActiveDirectory),
+                TokenAudience = environment.GetEndpointAsUri(resourceId),
+                ValidateAuthority = !environment.OnPremise
+            };
+
+            if (string.IsNullOrWhiteSpace(tenant))
+            {
+                tenant = CommonAdTenant;
+            }
+
+            if (TokenProvider != null)
+            {
+                return TokenProvider;
+            }
+
+            if (account == null || (account.Type == AzureAccount.AccountType.User))
+            {
+                return new ActiveDirectoryUserTokenProvider(AdalConfiguration.PowerShellClientId, tenant, 
+                    adEnvironment, AdalConfiguration.PowerShellRedirectUri, 
+                    new ActiveDirectoryParameters
+                    {
+                        OwnerWindow = new ConsoleParentWindow(), 
+                        PromptBehavior = PromptBehavior.Always,
+                        TokenCache = cache
+                    } );
+            }
+
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, 
+                "Could not log in with given information (account id: '{0}', account type : '{1}', tenant/domain: '{2}'", 
+                account.Id, account.Type, tenant));
+            
         }
 
-        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureContext context)
+        public ITokenProvider Login(AzureAccount account, AzureEnvironment environment, string tenant, ShowDialog promptBehavior, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            return Login(account, environment, tenant, promptBehavior, AzureSession.TokenCache, resourceId);
+        }
+
+        public ITokenProvider Login(AzureAccount account, AzureEnvironment environment, string tenant, SecureString password, TokenCache cache, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
+            if (account.Id == null)
+            {
+                throw new ArgumentOutOfRangeException("account id cannot be null");
+            }
+
+            if (environment == null)
+            {
+                environment = AzureEnvironment.PublicEnvironments["AzureCloud"];
+            }
+
+            if (string.IsNullOrWhiteSpace(tenant))
+            {
+                tenant = CommonAdTenant;
+            }
+
+            if (TokenProvider != null)
+            {
+                return TokenProvider;
+            }
+
+            var adEnvironment = new ActiveDirectoryEnvironment
+            {
+                AuthenticationEndpoint = environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ActiveDirectory),
+                TokenAudience = environment.GetEndpointAsUri(resourceId),
+                ValidateAuthority = !environment.OnPremise
+            };
+
+            var adSettings = new ActiveDirectoryParameters
+            {
+                PromptBehavior = PromptBehavior.Never,
+                TokenCache = cache
+            };
+
+            if (account.Type == AzureAccount.AccountType.User)
+            {
+                return new ActiveDirectoryUserTokenProvider(AdalConfiguration.PowerShellClientId, tenant, 
+                    account.Id, TokenProviderUtilities.ConvertToString(password), adEnvironment, adSettings);
+            }
+
+            if (account.Type == AzureAccount.AccountType.ServicePrincipal)
+            {
+                return new ApplicationCredentialStoreTokenProvider(account.Id, tenant, 
+                    TokenProviderUtilities.ConvertToString(password), adEnvironment, cache);
+            }
+
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, 
+                "Could not log in with given information (account id: '{0}', account type : '{1}', tenant/domain: '{2}') and the given password.", 
+                account.Id, account.Type, tenant));
+        }
+
+        public ITokenProvider Login(AzureAccount account, AzureEnvironment environment, string tenant, SecureString password, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            return Login(account, environment, tenant, password, AzureSession.TokenCache, resourceId);
+        }
+
+        public ITokenProvider Authenticate(AzureAccount account, AzureEnvironment environment, string tenant, TokenCache cache, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
+            if (account.Id == null)
+            {
+                throw new ArgumentOutOfRangeException("account id cannot be null");
+            }
+
+            if (environment == null)
+            {
+                environment = AzureEnvironment.PublicEnvironments["AzureCloud"];
+            }
+
+            if (string.IsNullOrWhiteSpace(tenant))
+            {
+                tenant = CommonAdTenant;
+            }
+
+            if (TokenProvider != null)
+            {
+                return TokenProvider;
+            }
+
+            var adEnvironment = new ActiveDirectoryEnvironment
+            {
+                AuthenticationEndpoint = environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ActiveDirectory),
+                TokenAudience = environment.GetEndpointAsUri(resourceId),
+                ValidateAuthority = !environment.OnPremise
+            };
+
+            var adSettings = new ActiveDirectoryParameters
+            {
+                PromptBehavior = PromptBehavior.Never,
+                TokenCache = cache
+            };
+
+            if (account.Type == AzureAccount.AccountType.User)
+            {
+                return new ActiveDirectoryUserTokenProvider(AdalConfiguration.PowerShellClientId, tenant, 
+                    account.Id, null, adEnvironment, adSettings);
+            }
+
+            if (account.Type == AzureAccount.AccountType.ServicePrincipal)
+            {
+                return ApplicationCredentialStoreTokenProvider.GetProviderFromCredStore(account.Id, tenant, 
+                    adEnvironment, cache);
+            }
+
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, 
+                "Could not find existing credentials with given information (account id: '{0}', account type : '{1}', tenant/domain: '{2}') and the given password.", 
+                account.Id, account.Type, tenant));
+        }
+
+        public ITokenProvider Authenticate(AzureAccount account, AzureEnvironment environment, string tenant, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            return Authenticate(account, environment, tenant, AzureSession.TokenCache, resourceId);
+        }
+
+        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureContext context, TokenCache cache, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
         {
             if (context.Subscription == null)
             {
@@ -87,11 +248,9 @@ namespace Microsoft.Azure.Common.Authentication.Factories
             {
                 TracingAdapter.Information(Resources.UPNAuthenticationTrace, 
                     context.Account.Id, context.Environment.Name, tenant);
-                var token = Authenticate(context.Account, context.Environment, 
-                    tenant, null, ShowDialog.Never);
-                TracingAdapter.Information(Resources.UPNAuthenticationTokenTrace, 
-                    token.LoginType, token.TenantId, token.UserId);
-                return new AccessTokenCredential(context.Subscription.Id, token);
+                var provider = Authenticate(context.Account, context.Environment, 
+                    tenant, cache, resourceId);
+                return new AccessTokenCredential(context.Subscription.Id, provider);
             }
             catch (Exception ex)
             {
@@ -100,25 +259,7 @@ namespace Microsoft.Azure.Common.Authentication.Factories
             }
         }
 
-        private AdalConfiguration GetAdalConfiguration(AzureEnvironment environment, string tenantId,
-            AzureEnvironment.Endpoint resourceId)
-        {
-            if (environment == null)
-            {
-                throw new ArgumentNullException("environment");
-            }
-            var adEndpoint = environment.Endpoints[AzureEnvironment.Endpoint.ActiveDirectory];
-
-            return new AdalConfiguration
-            {
-                AdEndpoint = adEndpoint,
-                ResourceClientUri = environment.Endpoints[resourceId],
-                AdDomain = tenantId, 
-                ValidateAuthority = !environment.OnPremise
-            };
-        }
-
-        public ServiceClientCredentials GetServiceClientCredentials(AzureContext context)
+        public ServiceClientCredentials GetServiceClientCredentials(AzureContext context, TokenCache cache, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
         {
             if (context.Subscription == null)
             {
@@ -154,9 +295,6 @@ namespace Microsoft.Azure.Common.Authentication.Factories
                 TracingAdapter.Information(Resources.UPNAuthenticationTrace,
                     context.Account.Id, context.Environment.Name, tenant);
 
-                // TODO: When we will refactor the code, need to add tracing
-                /*TracingAdapter.Information(Resources.UPNAuthenticationTokenTrace,
-                    token.LoginType, token.TenantId, token.UserId);*/
 
                 var env = new ActiveDirectoryEnvironment
                 {
@@ -165,31 +303,25 @@ namespace Microsoft.Azure.Common.Authentication.Factories
                     ValidateAuthority = !context.Environment.OnPremise
                 };
 
-                if(context.Account.Type == AzureAccount.AccountType.User)
-                {
-                    return new UserTokenCredentials(
-                            AdalConfiguration.PowerShellClientId,
-                            tenant,
-                            AdalConfiguration.PowerShellRedirectUri,
-                            env,
-                            new PlatformParameters(PromptBehavior.Never, null), 
-                            AzureSession.TokenCache);
-                }
-                else if (context.Account.Type == AzureAccount.AccountType.ServicePrincipal)
-                {
-                    return new Microsoft.Rest.Azure.Authentication.ApplicationTokenCredentials(
-                            context.Account.Id,
-                            tenant,
-                            UserTokenProvider.ConvertToString(ServicePrincipalKeyStore.GetKey(context.Account.Id, tenant)),
-                            env);
-                }
-                throw new NotSupportedException(context.Account.Type.ToString());
+                var provider = Authenticate(context.Account, context.Environment, tenant, cache, resourceId);
+                return new TokenCredentials(provider);
             }
             catch (Exception ex)
             {
                 TracingAdapter.Information(Resources.AdalAuthException, ex.Message);
                 throw new ArgumentException(Resources.InvalidSubscriptionState, ex);
             }
+        }
+
+
+        public SubscriptionCloudCredentials GetSubscriptionCloudCredentials(AzureContext context, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            return GetSubscriptionCloudCredentials(context, AzureSession.TokenCache, resourceId);
+        }
+
+        public ServiceClientCredentials GetServiceClientCredentials(AzureContext context, AzureEnvironment.Endpoint resourceId = AzureEnvironment.Endpoint.ActiveDirectoryServiceEndpointResourceId)
+        {
+            return GetServiceClientCredentials(context, AzureSession.TokenCache, resourceId);
         }
     }
 }

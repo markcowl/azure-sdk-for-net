@@ -18,6 +18,5 @@ namespace Microsoft.Azure.Common.Authentication
     {
         Auto,
         Always,
-        Never
     }
 }

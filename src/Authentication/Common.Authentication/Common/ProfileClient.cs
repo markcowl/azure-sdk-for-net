@@ -321,8 +321,7 @@ namespace Microsoft.Azure.Common.Authentication
             var subscriptionsFromServer = ListSubscriptionsFromServer(
                                             account,
                                             environment,
-                                            password,
-                                            password == null ? ShowDialog.Always : ShowDialog.Never).ToList();
+                                            password).ToList();
 
             // If account id is null the login failed
             if (account.Id != null)
@@ -740,7 +739,7 @@ namespace Microsoft.Azure.Common.Authentication
 
                 if (account.Type != AzureAccount.AccountType.Certificate)
                 {
-                    subscriptions.AddRange(ListSubscriptionsFromServer(account, environment, null, ShowDialog.Never));
+                    subscriptions.AddRange(ListSubscriptionsFromServer(account, environment, null));
                 }
 
                 AddOrSetAccount(account);
@@ -756,14 +755,14 @@ namespace Microsoft.Azure.Common.Authentication
             }
         }
 
-        private IEnumerable<AzureSubscription> ListSubscriptionsFromServer(AzureAccount account, AzureEnvironment environment, SecureString password, ShowDialog promptBehavior)
+        private IEnumerable<AzureSubscription> ListSubscriptionsFromServer(AzureAccount account, AzureEnvironment environment, SecureString password)
         {
             string[] tenants = null;
             try
             {
                 if (!account.IsPropertySet(AzureAccount.Property.Tenants))
                 {
-                    tenants = LoadAccountTenants(account, environment, password, promptBehavior);
+                    tenants = LoadAccountTenants(account, environment, password);
                 }
                 else
                 {
@@ -771,8 +770,7 @@ namespace Microsoft.Azure.Common.Authentication
                     if (account.Type == AzureAccount.AccountType.User && storedTenants.Count() == 1)
                     {
                         TracingAdapter.Information(Resources.AuthenticatingForSingleTenant, account.Id, storedTenants[0]);
-                        AzureSession.AuthenticationFactory.Authenticate(account, environment, storedTenants[0], password,
-                            promptBehavior);
+                        AzureSession.AuthenticationFactory.Authenticate(account, environment, storedTenants[0]);
                     }
                 }
             }
@@ -786,8 +784,8 @@ namespace Microsoft.Azure.Common.Authentication
             {
                 tenants = tenants ?? account.GetPropertyAsArray(AzureAccount.Property.Tenants);
                 List<AzureSubscription> mergedSubscriptions = MergeSubscriptions(
-                    ListServiceManagementSubscriptions(account, environment, password, ShowDialog.Never, tenants).ToList(),
-                    ListResourceManagerSubscriptions(account, environment, password, ShowDialog.Never, tenants).ToList());
+                    ListServiceManagementSubscriptions(account, environment, password, tenants).ToList(),
+                    ListResourceManagerSubscriptions(account, environment, password, tenants).ToList());
 
                 // Set user ID
                 foreach (var subscription in mergedSubscriptions)
@@ -811,16 +809,16 @@ namespace Microsoft.Azure.Common.Authentication
             }
         }
 
-        private string[] LoadAccountTenants(AzureAccount account, AzureEnvironment environment, SecureString password, ShowDialog promptBehavior)
+        private string[] LoadAccountTenants(AzureAccount account, AzureEnvironment environment, SecureString password)
         {
-            var commonTenantToken = AzureSession.AuthenticationFactory.Authenticate(account, environment,
-                AuthenticationFactory.CommonAdTenant, password, promptBehavior);
+            var commonTenantProvider = AzureSession.AuthenticationFactory.Authenticate(account, environment,
+                AuthenticationFactory.CommonAdTenant);
 
             if (environment.IsEndpointSet(AzureEnvironment.Endpoint.ResourceManager))
             {
                 using (CSMSubscriptionClient csmSubscriptionClient = AzureSession.ClientFactory
                         .CreateCustomClient<CSMSubscriptionClient>(
-                            new TokenCloudCredentials(commonTenantToken.AccessToken),
+                            new AccessTokenCredential(commonTenantProvider),
                             environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ResourceManager)))
                 {
                     return csmSubscriptionClient.Tenants.List().TenantIds.Select(ti => ti.TenantId).ToArray();
@@ -830,7 +828,7 @@ namespace Microsoft.Azure.Common.Authentication
             {
                 using (RDFESubscriptionClient rdfeSubscriptionClient = AzureSession.ClientFactory
                         .CreateCustomClient<RDFESubscriptionClient>(
-                            new TokenCloudCredentials(commonTenantToken.AccessToken),
+                            new AccessTokenCredential(commonTenantProvider),
                             environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ServiceManagement)))
                 {
                     var subscriptionListResult = rdfeSubscriptionClient.Subscriptions.List();
@@ -989,7 +987,7 @@ namespace Microsoft.Azure.Common.Authentication
             return mergeAccount;
         }
 
-        private IEnumerable<AzureSubscription> ListResourceManagerSubscriptions(AzureAccount account, AzureEnvironment environment, SecureString password, ShowDialog promptBehavior, string[] tenants)
+        private IEnumerable<AzureSubscription> ListResourceManagerSubscriptions(AzureAccount account, AzureEnvironment environment, SecureString password, string[] tenants)
         {
             List<AzureSubscription> result = new List<AzureSubscription>();
 
@@ -1004,7 +1002,7 @@ namespace Microsoft.Azure.Common.Authentication
                 {
                     var tenantAccount = new AzureAccount();
                     CopyAccount(account, tenantAccount);
-                    var tenantToken = AzureSession.AuthenticationFactory.Authenticate(tenantAccount, environment, tenant, password, ShowDialog.Never);
+                    var tenantToken = AzureSession.AuthenticationFactory.Authenticate(tenantAccount, environment, tenant);
                     if (string.Equals(tenantAccount.Id, account.Id, StringComparison.InvariantCultureIgnoreCase))
                     {
                         tenantAccount = account;
@@ -1013,7 +1011,7 @@ namespace Microsoft.Azure.Common.Authentication
                     tenantAccount.SetOrAppendProperty(AzureAccount.Property.Tenants, new string[] { tenant });
 
                     using (var subscriptionClient = AzureSession.ClientFactory.CreateCustomClient<CSMSubscriptionClient>(
-                                new TokenCloudCredentials(tenantToken.AccessToken),
+                                new AccessTokenCredential(tenantToken),
                                 environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ResourceManager)))
                     {
                         var subscriptionListResult = subscriptionClient.Subscriptions.List();
@@ -1055,7 +1053,7 @@ namespace Microsoft.Azure.Common.Authentication
             targetAccount.Type = sourceAccount.Type;
         }
 
-        private IEnumerable<AzureSubscription> ListServiceManagementSubscriptions(AzureAccount account, AzureEnvironment environment, SecureString password, ShowDialog promptBehavior, string[] tenants)
+        private IEnumerable<AzureSubscription> ListServiceManagementSubscriptions(AzureAccount account, AzureEnvironment environment, SecureString password, string[] tenants)
         {
             List<AzureSubscription> result = new List<AzureSubscription>();
 
@@ -1070,7 +1068,7 @@ namespace Microsoft.Azure.Common.Authentication
                 {
                     var tenantAccount = new AzureAccount();
                     CopyAccount(account, tenantAccount);
-                    var tenantToken = AzureSession.AuthenticationFactory.Authenticate(tenantAccount, environment, tenant, password, ShowDialog.Never);
+                    var tenantToken = AzureSession.AuthenticationFactory.Authenticate(tenantAccount, environment, tenant);
                     if (string.Equals(tenantAccount.Id, account.Id, StringComparison.InvariantCultureIgnoreCase))
                     {
                         tenantAccount = account;
@@ -1078,7 +1076,7 @@ namespace Microsoft.Azure.Common.Authentication
 
                     tenantAccount.SetOrAppendProperty(AzureAccount.Property.Tenants, new string[] { tenant });
                     using (var subscriptionClient = AzureSession.ClientFactory.CreateCustomClient<RDFESubscriptionClient>(
-                            new TokenCloudCredentials(tenantToken.AccessToken),
+                            new AccessTokenCredential(tenantToken),
                             environment.GetEndpointAsUri(AzureEnvironment.Endpoint.ServiceManagement)))
                     {
                         var subscriptionListResult = subscriptionClient.Subscriptions.List();
