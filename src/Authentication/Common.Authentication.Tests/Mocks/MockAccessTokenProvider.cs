@@ -44,5 +44,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             AdalConfiguration = config;
             return this.accessToken;
         }
+
+
+        public IAccessToken GetAccessToken(AdalConfiguration config, string clientId, System.Security.Cryptography.X509Certificates.X509Certificate2 certificate, AzureAccount.AccountType credentialType)
+        {
+            AdalConfiguration = config;
+            return this.accessToken;
+        }
     }
 }
