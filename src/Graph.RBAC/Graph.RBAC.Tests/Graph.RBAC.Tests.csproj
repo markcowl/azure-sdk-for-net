@@ -18,6 +18,7 @@
     <Compile Include="Tests\UserTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="SampleApplicationCredential.cer">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
