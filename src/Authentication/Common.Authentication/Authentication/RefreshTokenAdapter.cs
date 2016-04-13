@@ -13,12 +13,12 @@ namespace Microsoft.Azure.Common.Authentication.Authentication
     {
         RefreshTokenProvider _provider;
         AdalConfiguration _config;
-        string _userId;
+        AzureAccount _account;
 
-        public RefreshTokenAdapter(RefreshTokenProvider provider, string userId, AdalConfiguration config)
+        public RefreshTokenAdapter(RefreshTokenProvider provider, AzureAccount account, AdalConfiguration config)
         {
             _provider = provider;
-            _userId = userId;
+            _account = account;
             _config = config;
         }
 
@@ -31,8 +31,7 @@ namespace Microsoft.Azure.Common.Authentication.Authentication
             var task = new Task<IAccessToken>(
                 () =>
                 {
-                    var taskToken = _provider.GetAccessToken(_config, ShowDialog.Never, _userId, null,
-                        AzureAccount.AccountType.RefreshToken);
+                    var taskToken = _provider.GetAccessTokenWithRefreshToken(_config, _account);
                     return taskToken;
                 });
             task.Start(scheduler);
