@@ -24,7 +24,10 @@ namespace Microsoft.Azure.Common.Authentication.Authentication
 
         public async Task<AuthenticationHeaderValue> GetAuthenticationHeaderAsync(CancellationToken cancellationToken)
         {
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            // Adapt to execution environment which may or may not limit threads
+            var scheduler = SynchronizationContext.Current != null
+                ? TaskScheduler.FromCurrentSynchronizationContext()
+                : TaskScheduler.Current;
             var task = new Task<IAccessToken>(
                 () =>
                 {
