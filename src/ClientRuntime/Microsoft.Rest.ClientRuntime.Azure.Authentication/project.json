@@ -27,7 +27,7 @@
   "frameworks": {
     "net45": {
       "dependencies": {
-        "Microsoft.IdentityModel.Clients.ActiveDirectory": "[2.28.3,3.0)"
+        "Microsoft.IdentityModel.Clients.ActiveDirectory": "[2.28.4,3.0)"
       }
     },    
     "netstandard1.1": {
