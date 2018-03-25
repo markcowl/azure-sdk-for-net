@@ -5,7 +5,4 @@
 		<CRAzureAuthProjDir>$(MSBuildThisFileDirectory)ClientRuntime.Azure.Authentication</CRAzureAuthProjDir>
 	</PropertyGroup>
 	
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Rest.ClientRuntime" Version="[2.3.10, 3.0.0)" />
-	</ItemGroup>
 </Project>

@@ -113,7 +113,11 @@ namespace Microsoft.Azure.Test.HttpRecorder
             HttpMockServer.FileSystemUtilsObject.WriteFile(
                 path, JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings
                 {
+#if FullNetFx
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+#else
+                    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+#endif
                     TypeNameHandling = TypeNameHandling.None
                 }));
         }
@@ -123,7 +127,11 @@ namespace Microsoft.Azure.Test.HttpRecorder
             string json = HttpMockServer.FileSystemUtilsObject.ReadFileAsText(path);
             return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
                 {
+#if FullNetFx
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+#else
+                    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+#endif
                     TypeNameHandling = TypeNameHandling.None
                 });
         }
