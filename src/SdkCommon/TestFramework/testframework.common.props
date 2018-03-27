@@ -3,7 +3,7 @@
     <!-- <TestProjectType>true</TestProjectType> -->
   </PropertyGroup>
  
-  <ItemGroup Condition=" '$(TargetFramework)'=='netcoreapp2.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)'=='netstandard2.0' ">
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
@@ -18,7 +18,7 @@
     <DefineConstants>FullNetFx</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
