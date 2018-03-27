@@ -9,7 +9,8 @@
 		<AddProjectReferenceForDebuggingPurpose>false</AddProjectReferenceForDebuggingPurpose>
 		<AddNugetReferenceForCIandCmdlineBuild>true</AddNugetReferenceForCIandCmdlineBuild>
 		<SkipBuildingTestProject>false</SkipBuildingTestProject>
-		<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+		<!--<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences-->
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
 		<SignAssembly>true</SignAssembly>
 		<DelaySign>true</DelaySign>
 		<AssemblyOriginatorKeyFile>$(LibraryToolsFolder)\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
