@@ -1,0 +1,9 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\markcowl\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\td\\azure-sdk-for-net\\restoredPackages",
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ]
+  }
+}

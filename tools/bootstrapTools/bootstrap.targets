@@ -2,8 +2,8 @@
 	<UsingTask TaskName="GetBuildTools" AssemblyFile="taskBinaries\Microsoft.Azure.Build.BootstrapTasks.dll" />
 	
   <Target Name="GetLatestBuildTools">
-	<Message Text="Updating tools ...."/>
-	<GetBuildTools LocalBranchRootDir="$(LibraryRoot)" RemoteRootDir="$(RemoteRootDir)" DebugTrace="$(DebugTrace)"/>
+	<Message Text="Skipping update of tools ...."/>
+	<!--<GetBuildTools LocalBranchRootDir="$(LibraryRoot)" RemoteRootDir="$(RemoteRootDir)" DebugTrace="$(DebugTrace)"/>-->
   </Target>
   
   <Target Name="Init" DependsOnTargets="GetLatestBuildTools">
