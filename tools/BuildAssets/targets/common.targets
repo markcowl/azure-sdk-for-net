@@ -8,6 +8,7 @@
     <NetStd14>netstandard1.4</NetStd14>
     <NetCore11>netcoreapp1.1</NetCore11>
     <NetStd20>netstandard2.0</NetStd20>
+    <NetCore20>netcoreapp2.0</NetCore20>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildStaticAnalysisTargets>
@@ -62,7 +63,7 @@
 
   <Target Name="GetBuildEnv" Condition=" '$(BuildWideDebugTrace)' == 'true' ">
     <Message Text="OnPremiseBuild .... $(OnPremiseBuild)" Condition=" '$(BuildWideDebugTrace)' == 'true' "/>
-    <!--<Message Text="OnPremiseBuildTasks .... $(OnPremiseBuildTasks)"/>-->
+    <Message Text="OnPremiseBuildTasks .... $(OnPremiseBuildTasks)"/>
     <Message Text="CIToolsPath .... $(CIToolsPath)" Condition=" '$(BuildWideDebugTrace)' == 'true' "/>
     <Message Text="CodeSign .... $(CodeSign)" Condition=" '$(BuildWideDebugTrace)' == 'true' "/>
     <Message Text="PackageOutputPath .... $(PackageOutputPath)" Condition=" '$(BuildWideDebugTrace)' == 'true' "/>
@@ -166,10 +167,10 @@
              ContinueOnError="true">
     </MSBuild>
 
-    <Message Text="Building Test Projects ..... @(NetStd20TestProj) for $(NetStd20)" Condition=" '@(NetStd20TestProj)' != '' " />
+    <Message Text="Building Test Projects ..... @(NetCore20TestProj) for $(NetCore20)" Condition=" '@(NetCore20TestProj)' != '' " />
     <MSBuild Targets="$(LatestProjectDefaultBuildTarget)"
-             Projects="@(NetStd20TestProj)"
-             Properties="TargetFramework=$(NetStd20)"
+             Projects="@(NetCore20TestProj)"
+             Properties="TargetFramework=$(NetCore20)"
              BuildInParallel="$(BuildInParallel)"
              ContinueOnError="true">
     </MSBuild>
@@ -207,8 +208,8 @@
     <Message Text="Running .NET Core 1.1 Tests .... @(netCore11TestProj)" Condition=" '@(netCore11TestProj)' != '' " />
     <Exec Command="dotnet test -f $(NetCore11) %(netCore11TestProj.Identity) -l trx;LogFileName=$(LibraryRoot)TestResults\netCore11\%(netCore11TestProj.Filename).trx " Condition="@(netCore11TestProj) != ''" ContinueOnError="false" WorkingDirectory="%(netCore11TestProj.RootDir)%(netCore11TestProj.Directory)" />
 
-    <Message Text="Running .NET Core 2.0 Tests .... @(NetStd20TestProj)" Condition=" '@(NetStd20TestProj)' != '' " />
-    <Exec Command="dotnet test -f $(NetStd20) %(NetStd20TestProj.Identity) -l trx;LogFileName=$(LibraryRoot)TestResults\NetStd20\%(NetStd20TestProj.Filename).trx " Condition="@(NetStd20TestProj) != ''" ContinueOnError="false" WorkingDirectory="%(NetStd20TestProj.RootDir)%(NetStd20TestProj.Directory)" />
+    <Message Text="Running .NET Core 2.0 Tests .... @(NetCore20TestProj)" Condition=" '@(NetCore20TestProj)' != '' " />
+    <Exec Command="dotnet test -f $(NetCore20) %(NetCote20TestProj.Identity) -l trx;LogFileName=$(LibraryRoot)TestResults\NetCore20\%(NetCore20TestProj.Filename).trx " Condition="@(NetCore20TestProj) != ''" ContinueOnError="false" WorkingDirectory="%(NetCore20TestProj.RootDir)%(NetCore20TestProj.Directory)" />
 
     <Message Text="Running .NET 4.5.2 Tests .... @(net452TestProj)" Condition=" '@(net452TestProj)' != '' " />
     <Exec Command="dotnet test -f $(NetFx452) %(net452TestProj.Identity) -l trx;LogFileName=$(LibraryRoot)TestResults\net452\%(net452TestProj.Filename).trx " Condition="@(net452TestProj) != ''" ContinueOnError="false" WorkingDirectory="%(net452TestProj.RootDir)%(net452TestProj.Directory)" />
@@ -289,7 +290,7 @@
       <Output TaskParameter="netStd14SdkProjectsToBuild" ItemName="netStd14SDKProj" />
       <Output TaskParameter="netCore11SdkProjectsToBuild" ItemName="netCore11SDKProj" />
       <Output TaskParameter="NetStd20SdkProjectsToBuild" ItemName="NetStd20SDKProj" />
-      <Output TaskParameter="NetStd20TestProjectsToBuild" ItemName="NetStd20TestProj" />
+      <Output TaskParameter="NetCore20TestProjectsToBuild" ItemName="NetCore20TestProj" />
       <Output TaskParameter="netCore11TestProjectsToBuild" ItemName="netCore11TestProj" />
       <Output TaskParameter="net452TestProjectsToBuild" ItemName="net452TestProj" />
       <Output TaskParameter="unSupportedProjectsToBuild" ItemName="unsupportedProj" />
@@ -298,7 +299,7 @@
     <Message Text="Categorizing Projects....."/>
     <ItemGroup>
       <TotalSdkProjects Include="@(net452SDKProj);@(netStd14SDKProj);@(netCore11SDKProj);@(NetStd20SDKProj)"/>
-      <TotalTestProjects Include="@(netCore11TestProj);@(net452TestProj);@(NetStd20TestProj)"/>
+      <TotalTestProjects Include="@(netCore11TestProj);@(net452TestProj);@(NetCore20TestProj)"/>
     </ItemGroup>
 
     <RemoveDuplicates Inputs="@(TotalSdkProjects)">
@@ -322,7 +323,7 @@
       <netStd14SDKProjects Include="@(netStd14SDKProj)"/>
       <netCore11SDKProjects Include="@(netCore11SDKProj)"/>
       <NetStd20SDKProjects Include="@(NetStd20SDKProj)"/>
-      <NetStd20TestProjects Include="@(NetStd20TestProj)"/>
+      <NetCore20TestProjects Include="@(NetCore20TestProj)"/>
       <netCore11TestProjects Include="@(netCore11TestProj)"/>
       <net452TestProjects Include="@(net452TestProj)"/>
       <unSupportedProject Include="@(unsupportedProj)"/>

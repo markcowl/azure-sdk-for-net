@@ -67,6 +67,9 @@
       <OnPremiseBuildProj Include="$(CIToolsPath)\Microsoft.WindowsAzure.Tools.Build.Tasks.OnPremise\*.csproj" />
       <OnPremiseBuildFile Include="$(CIToolsPath)\*Tools.Build.*.dll" />
     </ItemGroup>
+  <Message Text="Building CI Tools using CIToolsPath: $(CIToolsPath)" />
+  <Message Text="Building CI Tools using OnPremiseBuildProj: @(OnPremiseBuildProj)" />
+  <Message Text="Building CI Tools using OnPremiseBuildFile: @(OnPremiseBuildFile)" />
 
     <MSBuild Targets="Restore"
       Projects="@(OnPremiseBuildProj)"
