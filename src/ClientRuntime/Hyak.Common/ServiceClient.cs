@@ -70,7 +70,7 @@ namespace Hyak.Common
         public ServiceClient()
         {
             // Create our root handler
-#if NET45
+#if NET452
             HttpClientHandler handler = new WebRequestHandler();
 #else
             HttpClientHandler handler = new HttpClientHandler();

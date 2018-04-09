@@ -56,7 +56,7 @@
 		<!--Set this true only if you want to test the code sign workflow locally-->
 		<DelaySign Condition =" '$(DelaySign)' == '' ">false</DelaySign>
 		<Scope Condition=" '$(Scope)' == '' ">All</Scope>
-		<FxTargetList>portable;net40;net45</FxTargetList>
+		<FxTargetList>net452;netstandard1.4</FxTargetList>
 		<FxTargetList Condition=" '$(Scope)' == 'authentication' ">net45</FxTargetList>
 		<ZipExeFolder>$(LibraryToolsFolder)\7-Zip</ZipExeFolder>
 		<ZipExe>$(ZipExeFolder)\7z.exe</ZipExe>
@@ -67,7 +67,7 @@
 		<LibrariesToBuild Include="$(LibrarySourceFolder)\$(Scope)\*.sln" Condition=" '$(Scope)' != 'all'  " />
 		<LibrariesToBuild Include="$(LibrarySourceFolder)\**\*.sln" Exclude="$(LibrarySourceFolder)\KeyVault\Microsoft.Azure.KeyVault.Samples\Microsoft.Azure.KeyVault.Samples.sln" Condition=" '$(Scope)' == 'all'  " />
 		<LibraryFxTargetList Include="$(FxTargetList)" />
-		<AutoRestLibraryFxTargetList Include="portable;net45" />
+		<AutoRestLibraryFxTargetList Include="net452;netstandard1.4" />
 		<ClientRuntimeProjects Include="$(LibrarySourceFolder)\ClientRuntime\**\*.xproj"/>
 		<ClientRuntimeTests Include="$(LibrarySourceFolder)\ClientRuntime\*.Tests\*.xproj"/>
 		<ClientRuntimeRootDir Include="%(ClientRuntimeProjects.RootDir)"/>
@@ -148,9 +148,9 @@
 		<Message Text="SdkNugetPackages After Filter: @(SdkNuGetPackage)" />
 		<Message Text="Non-AutoRest Libraries: @(NonAutoRestLibraries)" />     
 		<Message Text="Ensure 7zip is available" />
-		<Exec
+		<!--<Exec
 		  Command="$(LibraryToolsFolder)\AzCopy\AzCopy.exe /Source:https://azuresdktools.blob.core.windows.net/7-zip  /S /Dest:$(ZipExeFolder) /Y"
-		  Condition="!Exists('$(ZipExe)')" />
+		  Condition="!Exists('$(ZipExe)')" /> -->
 	</Target>
   
 	<Target Name="Build" DependsOnTargets="BuildClientRuntime;BuildMsBuildTask;PrepareForAutoRestLibraries;RestoreNugetPackages">
@@ -162,19 +162,19 @@
 		<CallTarget Targets="BuildServerPreparation" Condition=" '$(CodeSign)' == 'true' " />
 
 		<MSBuild Projects="@(NonAutoRestLibraries)"
-				 Properties="Configuration=%(LibraryFxTargetList.Identity)-$(Configuration);Platform=Any CPU;$(_ExtraPropertyList)"
+				 Properties="Configuration=$(Configuration);Platform=Any CPU;$(_ExtraPropertyList)"
 				 Targets="Build" />
 
 		<MSBuild Projects="@(Non_NetCore_AutoRestLibraries)"
-				 Properties="Configuration=%(AutoRestLibraryFxTargetList.Identity)-$(Configuration);Platform=Any CPU;$(_ExtraPropertyList)"
+				 Properties="Configuration=$(Configuration);Platform=Any CPU;$(_ExtraPropertyList)"
 				 Targets="Build" />
 
 		<!-- Restoring everyting from the root folder wipes out Storage nuget references and adds Storage project reference to all projects. -->
 		<!-- Restoring from root directory when publishing scope packages -->
-		<Exec Command="dotnet restore" WorkingDirectory="$(LibraryRoot)" Condition=" '$(Scope)' != 'all' "/>
+		<!--<Exec Command="dotnet restore" WorkingDirectory="$(LibraryRoot)" Condition=" '$(Scope)' != 'all' "/> -->
 		<Exec Command="dotnet restore %(NetCore_AutoRestLibraries.RootDir)\%(NetCore_AutoRestLibraries.Directory)" Condition=" @(NetCore_AutoRestLibraries) != '' "/>
-		<Exec Command="dotnet restore" WorkingDirectory="%(NetCore_AutoRestLibraries.Library)" Condition=" @(NetCore_AutoRestLibraries) != '' "/>
-		<Exec Command="dotnet restore" WorkingDirectory="%(NetCore_AutoRestLibraries.Test)" Condition=" @(NetCore_AutoRestLibraries) != '' and '%(NetCore_AutoRestLibraries.Test)' != '' and '$(Configuration)' != 'Release' "/>
+		<!--<Exec Command="dotnet restore" WorkingDirectory="%(NetCore_AutoRestLibraries.Library)" Condition=" @(NetCore_AutoRestLibraries) != '' "/>
+		<Exec Command="dotnet restore" WorkingDirectory="%(NetCore_AutoRestLibraries.Test)" Condition=" @(NetCore_AutoRestLibraries) != '' and '%(NetCore_AutoRestLibraries.Test)' != '' and '$(Configuration)' != 'Release' "/> -->
 
 		<CallTarget Targets="BuildNetCoreLibraries" Condition=" @(NetCore_AutoRestLibraries) != '' " />
 		<CallTarget Targets="CodeSignBinaries" Condition=" '$(CodeSign)' == 'true' " />

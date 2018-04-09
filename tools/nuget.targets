@@ -89,13 +89,15 @@
 		<Exec Condition=" '%(SdkNuGetPackage.Identity)' != '' "
 			  Command="$(NuGetCommand) pack -BasePath .\src\ -Verbosity $(NuGetVerbosity) &quot;binaries\packages\specs\%(SdkNuGetPackage.Identity).nuspec&quot; -Version %(SdkNuGetPackage.PackageVersion) -OutputDirectory &quot;$(PackageOutputDir)&quot; -Symbols" />
 		<Exec Command="dotnet pack --configuration $(Configuration)" WorkingDirectory="%(NetCore_AutoRestLibraries.Library)" Condition=" @(NetCore_AutoRestLibraries) != '' "/>
+    <Exec Command="dotnet pack --configuration $(Configuration) .\ --output $(PackageOutputDir)" WorkingDirectory="%(NonAutoRestLibraries.RootDir)%(NonAutoRestLibraries.Directory)" Condition=" @(NonAutoRestLibraries) != '' "/>
 
-		<ItemGroup>
+    <ItemGroup>
 			<_NetCorePackages Include="%(NetCore_AutoRestLibraries.Library)\bin\$(Configuration)\%(NetCore_AutoRestLibraries.PackageName)*.nupkg" />
 		</ItemGroup>
 		<Copy SourceFiles="@(_NetCorePackages)" DestinationFolder="$(PackageOutputDir)" Condition=" @(NetCore_AutoRestLibraries) != '' " />
-		<CallTarget Targets="SignAssembliesInNetCorePackages" Condition=" @(NetCore_AutoRestLibraries) != '' and '$(CodeSign)' == 'true' " />
-	</Target>
+    <CallTarget Targets="SignAssembliesInNetCorePackages" Condition=" @(NetCore_AutoRestLibraries) != '' and '$(CodeSign)' == 'true' " />
+    <CallTarget Targets="SignAssembliesInNetCorePackages" Condition=" @(NonAutoRestLibraries) != '' and '$(CodeSign)' == 'true' " />
+  </Target>
 
 	<Target Name="Publish" DependsOnTargets="PrepareForAutoRestLibraries">
 		<Error Condition=" ('$(PackageName)' == '') AND ('$(Scope)' == '' OR '$(Scope)' == 'all') " Text="Publishing nuget package without specifying scope or packageName has now been disabled" />

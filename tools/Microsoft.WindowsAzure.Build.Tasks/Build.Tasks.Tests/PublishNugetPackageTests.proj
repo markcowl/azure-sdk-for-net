@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<LibrarySourceFolder Condition="'$(PublishTestProjects)' == 'true'">$(LibraryToolsFolder)\Microsoft.WindowsAzure.Build.Tasks\Build.Tasks.Tests\TestPublishProjects</LibrarySourceFolder>
 		<LibraryNugetPackageFolder>$(LibraryRoot)\packages</LibraryNugetPackageFolder>
-		<FxTargetList>portable;net40;net45</FxTargetList>
+		<FxTargetList>net452;netstandard1.4</FxTargetList>
 		<NuGetPublishingSource Condition="'$(NuGetPublishingSource)' == ''">$(LibraryRoot)\testPackages\nugetPublish</NuGetPublishingSource>
 		<NuGetKey>1234</NuGetKey>
 	</PropertyGroup>
@@ -21,7 +21,7 @@
 		<LibrariesToBuild Include="$(LibrarySourceFolder)\$(Scope)\**\*.sln" Condition=" '$(Scope)' != 'All' Or '$(Scope)' == '' " />
 		<LibrariesToBuild Include="$(LibrarySourceFolder)\**\*.sln" Condition=" '$(Scope)' == 'All' Or '$(Scope)' == '' " />		
 		<LibraryFxTargetList Include="$(FxTargetList)" />
-		<AutoRestLibraryFxTargetList Include="portable;net45" />	
+		<AutoRestLibraryFxTargetList Include="net452;netstandard1.4" />	
 	</ItemGroup>
 	
 	<Target Name="CommonInit" >

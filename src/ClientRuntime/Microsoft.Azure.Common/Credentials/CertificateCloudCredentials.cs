@@ -13,8 +13,6 @@
 // limitations under the License.
 //
 
-#if !NETSTANDARD1_1
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -113,7 +111,7 @@ namespace Microsoft.Azure
         /// </remarks>
         public override void InitializeServiceClient<T>(ServiceClient<T> client)
         {
-#if NET45
+#if NET452
             WebRequestHandler handler = client.GetHttpPipeline().OfType<WebRequestHandler>().FirstOrDefault();
             if (handler == null)
             {
@@ -244,9 +242,9 @@ namespace Microsoft.Azure
                 {
                     if (store != null)
                     {
-#if NET45
+#if NET452
                         store.Close();
-#elif NETSTANDARD1_5
+#elif NETSTANDARD1_4
                         store.Dispose();
 #endif
                     }
@@ -256,5 +254,3 @@ namespace Microsoft.Azure
         }
     }
 }
-
-#endif
