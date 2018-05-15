@@ -140,7 +140,7 @@ namespace Microsoft.Azure.Management.HDInsight.Job
             this._credentials = credentials;
             
             this.Credentials.InitializeServiceClient(this);
-            this._userName = credentials.Username.ToLower(CultureInfo.CurrentCulture);
+            this._userName = CultureInfo.CurrentCulture.TextInfo.ToLower(credentials.Username);
         }
         
         /// <summary>
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.Management.HDInsight.Job
             this._credentials = credentials;
             
             this.Credentials.InitializeServiceClient(this);
-            this._userName = credentials.Username.ToLower(CultureInfo.CurrentCulture);
+            this._userName = CultureInfo.CurrentCulture.TextInfo.ToLower(credentials.Username);
         }
         
         /// <summary>

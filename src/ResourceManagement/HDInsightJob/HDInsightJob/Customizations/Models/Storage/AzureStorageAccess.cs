@@ -20,6 +20,7 @@ using Hyak.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System.Net.Http;
 
 namespace Microsoft.Azure.Management.HDInsight.Job.Models
 {
@@ -74,9 +75,9 @@ namespace Microsoft.Azure.Management.HDInsight.Job.Models
             {
                 var client = GetStorageClient();
                 var container = client.GetContainerReference(defaultContainer);
-                blobReference = container.GetBlobReferenceFromServer(blobReferencePath);
+                blobReference = container.GetBlobReferenceFromServerAsync(blobReferencePath).ConfigureAwait(false).GetAwaiter().GetResult();
             }
-            catch (WebException blobNotFoundException)
+            catch (HttpRequestException blobNotFoundException)
             {
                 throw new CloudException(blobNotFoundException.Message);
             }
@@ -106,9 +107,9 @@ namespace Microsoft.Azure.Management.HDInsight.Job.Models
 
             try
             {
-                blobReference.DownloadToStream(blobStream);
+                blobReference.DownloadToStreamAsync(blobStream).GetAwaiter().GetResult();
             }
-            catch (WebException blobWebException)
+            catch (HttpRequestException blobWebException)
             {
                 throw new CloudException(blobWebException.Message);
             }

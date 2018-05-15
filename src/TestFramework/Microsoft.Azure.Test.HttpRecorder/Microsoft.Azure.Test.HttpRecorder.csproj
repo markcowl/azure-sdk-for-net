@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Microsoft.Azure.Test.HttpRecorder</Description>
+    <Copyright>Copyright (c) Microsoft Corporation</Copyright>
+    <AssemblyTitle>HttpRecorder Library for recording Clinet/Server communication in Azure</AssemblyTitle>
+    <VersionPrefix>1.6.9</VersionPrefix>
+    <Authors>Microsoft Corporation</Authors>
+    <TargetFrameworks>net45;netstandard1.5</TargetFrameworks>
+    <DelaySign>true</DelaySign>
+    <AssemblyName>Microsoft.Azure.Test.HttpRecorder</AssemblyName>
+    <AssemblyOriginatorKeyFile>../../../tools/MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PackageId>Microsoft.Azure.Test.HttpRecorder</PackageId>
+    <PackageTags>Microsoft AutoRest ClientRuntime HttpRecorder REST</PackageTags>
+    <PackageIconUrl>http://go.microsoft.com/fwlink/?LinkID=288890</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Azure/azure-sdk-for-net</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/dotnet/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.5' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.5' ">1.6.1</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD15;PORTABLE</DefineConstants>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
+    <PackageReference Include="Newtonsoft.Json" Version="[9.0.1,10.0)" />
+    <PackageReference Include="System.AppDomain" Version="2.0.11" />
+  </ItemGroup>
+
+</Project>
