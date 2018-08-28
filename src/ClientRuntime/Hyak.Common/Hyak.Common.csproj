@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Provides infrastructure for common error handling, tracing, configuration, and HTTP/REST-based pipeline manipulation for REST clients generated with Hyak.</Description>
     <AssemblyTitle>Common Library for Hyak Code Generator</AssemblyTitle>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.2.1</VersionPrefix>
     <Authors>Microsoft</Authors>
     <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
     <DelaySign>true</DelaySign>
@@ -44,9 +44,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="System.Reflection" Version="[4.3.0, 5.0.0)" />
-    <PackageReference Include="System.Threading" Version="[4.3.0, 5.0.0)" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">

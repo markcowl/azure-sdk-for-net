@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Provides Microsoft Azure ApiManagement operations.</Description>
     <AssemblyTitle>Microsoft Azure Api Management Library</AssemblyTitle>
-    <VersionPrefix>3.4.0</VersionPrefix>
+    <VersionPrefix>3.4.2</VersionPrefix>
     <Authors>Microsoft</Authors>
     <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
     <DelaySign>true</DelaySign>
@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hyak.Common" Version="1.2.0" />
+    <PackageReference Include="Hyak.Common" Version="1.2.1" />
     <PackageReference Include="Microsoft.Azure.Common" Version="2.2.0" />
   </ItemGroup>
 
@@ -48,9 +48,9 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <PackageReference Include="System.Reflection" Version="[4.3.0, 5.0.0)" />
-    <PackageReference Include="System.Threading" Version="[4.3.0, 5.0.0)" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
 
