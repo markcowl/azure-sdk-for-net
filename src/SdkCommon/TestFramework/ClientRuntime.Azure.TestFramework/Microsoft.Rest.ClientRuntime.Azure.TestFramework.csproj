@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Microsoft.Rest.ClientRuntime.Azure.TestFramework</Description>
     <AssemblyTitle>Test framework for Microsoft AutoRest Generated Clients</AssemblyTitle>
-    <Version>1.7.3</Version>
+    <Version>1.8.0</Version>
     <AssemblyName>Microsoft.Rest.ClientRuntime.Azure.TestFramework</AssemblyName>
     <PackageId>Microsoft.Rest.ClientRuntime.Azure.TestFramework</PackageId>
     <PackageTags>Microsoft AutoRest ClientRuntime REST TestFramework</PackageTags>
@@ -13,7 +13,7 @@
     </PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net452;net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net452;net461;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(VsIdeBuild)' == 'true' ">
@@ -25,21 +25,21 @@
   </ItemGroup> 
   
   <ItemGroup Condition=" '$(ProjectRefApplicable)' == 'true' ">
-    <ProjectReference Include="..\..\Auth\Az.Auth\Az.Authentication\Microsoft.Rest.ClientRuntime.Azure.Authentication.csproj" Condition=" '$(ProjectRefApplicable)' == 'true' "/>
+    <ProjectReference Include="..\..\Auth\Az.Auth\Az.Authentication\Microsoft.Rest.ClientRuntime.Azure.Authentication.csproj" Condition=" '$(ProjectRefApplicable)' == 'true' " />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="[3.14.0, 4.0.0)" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="[5.1.2]" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' "/>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' " />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="[3.14.0, 4.0.0)" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="[5.1.2]" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' "/>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' " />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
@@ -52,7 +52,7 @@
 
     <PackageReference Include="Newtonsoft.Json" Version="6.0.8" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="[2.28.3]" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.1]" Condition=" '$(ProjectRefApplicable)' != 'true' "/>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.1]" Condition=" '$(ProjectRefApplicable)' != 'true' " />
   </ItemGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
@@ -65,7 +65,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="[3.14.0, 4.0.0)" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="[5.1.2, 6.0.0)" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' "/>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime.Azure.Authentication" Version="[2.3.4, 3.0.0)" Condition=" '$(ProjectRefApplicable)' != 'true' " />
   </ItemGroup>
   <!--
   <Choose>
