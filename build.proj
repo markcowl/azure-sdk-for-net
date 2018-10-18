@@ -365,7 +365,7 @@
 
 		<MakeDir Directories="$(_UnsignedFolder);$(_SignedFolder)" />
 
-		<Exec Command="$(ZipExe) x -y -scsUTF-8 -o@(_NetCorePackages->'$(PackageOutputDir)\%(Filename)') %(_NetCorePackages.Identity)" />
+		<Exec Command="$(ZipExe) x -y -scsUTF-8 -o @(_NetCorePackages->'$(PackageOutputDir)\%(Filename)') %(_NetCorePackages.Identity)" />
 
 		<RemoveDir Directories="@(_NetCorePackages->'%(RootDir)%(Directory)\%(Filename)\_rels')" />
 		<Delete Files="@(_NetCorePackages->'%(RootDir)%(Directory)\%(Filename)\[Content_Types].xml')" />
