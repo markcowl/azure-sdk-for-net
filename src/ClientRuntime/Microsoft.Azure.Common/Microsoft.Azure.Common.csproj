@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Provides infrastructure for common error handling, tracing, configuration, and HTTP/REST-based pipeline manipulation. The package also exposes the CloudContext type, which enables centralized discovery of available Microsoft Azure libraries.</Description>
     <AssemblyTitle>Microsoft Azure Common Library</AssemblyTitle>
-    <VersionPrefix>2.2.0</VersionPrefix>
+    <VersionPrefix>2.2.1</VersionPrefix>
     <Authors>Microsoft</Authors>
     <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
     <DelaySign>true</DelaySign>

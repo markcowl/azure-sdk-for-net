@@ -9,7 +9,7 @@ using System.Resources;
 [assembly: AssemblyDescription("Provides infrastructure for common error handling, tracing, configuration for REST clients.")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.2.1.0")]
+[assembly: AssemblyFileVersion("1.2.2.0")]
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
