@@ -303,7 +303,7 @@
 
 	<Target Name="RestoreNugetPackages">
 		<PropertyGroup>
-			<NuGetRestoreConfigSwitch>-PackagesDirectory $(LibraryNugetPackageFolder) -Source https://api.nuget.org/v3/index.json -Source &quot;c:\td\azure-sdk-for-net\tools\LocalFeed&quot;</NuGetRestoreConfigSwitch>
+			<NuGetRestoreConfigSwitch>-PackagesDirectory $(LibraryNugetPackageFolder) -Source https://api.nuget.org/v3/index.json -Source &quot;$(LibraryToolsFolder)\LocalFeed&quot;</NuGetRestoreConfigSwitch>
 		</PropertyGroup>
 		<Exec Command="$(NuGetCommand) restore $(LibrarySourceFolder)\$(Scope) $(NuGetRestoreConfigSwitch)" Condition=" '$(Scope)' != 'all' AND ('@(Non_NetCore_AutoRestLibraries)' != '' OR '@(NonAutoRestLibraries)' != '')"/>
 		<Exec Command="$(NuGetCommand) restore %(Non_NetCore_AutoRestLibraries.Identity) $(NuGetRestoreConfigSwitch)" Condition=" @(Non_NetCore_AutoRestLibraries) != '' "/>
