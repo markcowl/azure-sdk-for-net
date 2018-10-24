@@ -1,9 +1,15 @@
 ﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Management.HDInsight", "Microsoft.Azure.Management.HDInsight\Microsoft.Azure.Management.HDInsight.csproj", "{B48C0FA4-548A-44B7-A447-A3690073E8A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A072201-5EC1-4A30-A814-5E4D5FCD4DCB}"
+	ProjectSection(SolutionItems) = preProject
+		codecoverage.runsettings = codecoverage.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,8 +24,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D1F92131-5306-4635-8D6D-5267B75C4ECD}
 	EndGlobalSection
 EndGlobal
