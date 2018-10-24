@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Provides Microsoft Azure HDIsight Job operations.</Description>
     <AssemblyTitle>Microsoft Azure HDInsight Job Management Library</AssemblyTitle>
-    <VersionPrefix>2.0.6</VersionPrefix>
+    <VersionPrefix>2.0.7</VersionPrefix>
     <Authors>Microsoft</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <DelaySign>true</DelaySign>
@@ -29,8 +29,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hyak.Common" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Azure.Common" Version="2.2.0" />
+    <PackageReference Include="Hyak.Common" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Azure.Common" Version="2.2.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.0.0" />
     <PackageReference Include="System.Reflection" Version="[4.3.0, 5.0.0)" />
     <PackageReference Include="System.Reflection.Extensions" Version="[4.3.0, 5.0.0)" />
