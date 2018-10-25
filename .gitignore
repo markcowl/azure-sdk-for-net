@@ -15,7 +15,6 @@ binaries/
 [Rr]elease/
 build/
 src/NuGet.Config
-tools/7-zip/
 
 [Tt]est[Rr]esult
 [Bb]uild[Ll]og.*
