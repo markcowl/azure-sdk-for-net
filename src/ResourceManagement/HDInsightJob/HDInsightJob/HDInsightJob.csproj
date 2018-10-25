@@ -5,14 +5,15 @@
     <AssemblyTitle>Microsoft Azure HDInsight Job Management Library</AssemblyTitle>
     <VersionPrefix>2.0.7</VersionPrefix>
     <Authors>Microsoft</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <DelaySign>true</DelaySign>
     <AssemblyName>Microsoft.Azure.Management.HDInsight.Job</AssemblyName>
     <AssemblyOriginatorKeyFile>../../../../tools/MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
-    <NetStandardImplicitPackageVersion>2.0</NetStandardImplicitPackageVersion>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.5' ">1.6.1</NetStandardImplicitPackageVersion>
     <SignAssembly>true</SignAssembly>
     <PackageId>Microsoft.Azure.Management.HDInsight.Job</PackageId>
     <PackageTags>Microsoft;Microsoft Azure;Azure;DataFactory;REST;HTTP;client;azureofficial;windowsazureofficial</PackageTags>
+    <PackageReleaseNotes>Taking dependency on 10.0.3 version of Newntonsoft nuget package.</PackageReleaseNotes>
     <PackageIconUrl>http://go.microsoft.com/fwlink/?LinkID=288890</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Azure/azure-sdk-for-net</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/dotnet/master/LICENSE</PackageLicenseUrl>
