@@ -10,6 +10,7 @@
     <AssemblyName>Microsoft.Azure.Management.HDInsight.Job</AssemblyName>
     <AssemblyOriginatorKeyFile>../../../../tools/MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard2.0' ">2.0.3</NetStandardImplicitPackageVersion>
     <PackageId>Microsoft.Azure.Management.HDInsight.Job</PackageId>
     <PackageTags>Microsoft;Microsoft Azure;Azure;DataFactory;REST;HTTP;client;azureofficial;windowsazureofficial</PackageTags>
     <PackageReleaseNotes>Taking dependency on 10.0.3 version of Newtonsoft nuget package.</PackageReleaseNotes>
