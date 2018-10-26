@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Provides Microsoft Azure DataFactories operations.</Description>
     <AssemblyTitle>Microsoft Azure DataFactories Management Library</AssemblyTitle>
-    <VersionPrefix>4.13.2</VersionPrefix>
+    <VersionPrefix>4.13.3</VersionPrefix>
     <Authors>Microsoft</Authors>
     <TargetFrameworks>net452;netstandard1.5</TargetFrameworks>
     <DelaySign>true</DelaySign>
@@ -13,6 +13,7 @@
     <SignAssembly>true</SignAssembly>
     <PackageId>Microsoft.Azure.Management.DataFactories</PackageId>
     <PackageTags>Microsoft;Microsoft Azure;Azure;DataFactory;REST;HTTP;client;azureofficial;windowsazureofficial</PackageTags>
+    <PackageReleaseNotes>Taking dependency on 10.0.3 version of Newntonsoft nuget package.</PackageReleaseNotes>
     <PackageIconUrl>http://go.microsoft.com/fwlink/?LinkID=288890</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Azure/azure-sdk-for-net</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Microsoft/dotnet/master/LICENSE</PackageLicenseUrl>
@@ -29,8 +30,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hyak.Common" Version="1.2.1" />
-    <PackageReference Include="Microsoft.Azure.Common" Version="2.2.0" />
+    <PackageReference Include="Hyak.Common" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Azure.Common" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
@@ -51,7 +52,7 @@
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
 
