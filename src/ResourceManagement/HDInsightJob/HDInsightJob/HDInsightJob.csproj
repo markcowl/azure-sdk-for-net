@@ -9,7 +9,6 @@
     <DelaySign>true</DelaySign>
     <AssemblyName>Microsoft.Azure.Management.HDInsight.Job</AssemblyName>
     <AssemblyOriginatorKeyFile>../../../../tools/MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
-    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
     <SignAssembly>true</SignAssembly>
     <PackageId>Microsoft.Azure.Management.HDInsight.Job</PackageId>
     <PackageTags>Microsoft;Microsoft Azure;Azure;DataFactory;REST;HTTP;client;azureofficial;windowsazureofficial</PackageTags>
