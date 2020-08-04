@@ -10,19 +10,19 @@ using System;
 namespace Azure.Learn.AppConfig.Models
 {
     /// <summary> The KeyValue. </summary>
-    public partial class KeyValue
+    public partial class ConfigurationSetting
     {
-        /// <summary> Initializes a new instance of KeyValue. </summary>
-        internal KeyValue()
+        /// <summary> Initializes a new instance of ConfigurationSetting. </summary>
+        internal ConfigurationSetting()
         {
         }
 
-        /// <summary> Initializes a new instance of KeyValue. </summary>
+        /// <summary> Initializes a new instance of ConfigurationSetting. </summary>
         /// <param name="key"> The unique id of the key-value. </param>
         /// <param name="contentType"> The content type of the value. </param>
         /// <param name="value"> The value of the key-value. </param>
         /// <param name="lastModified"> The time the key-value was last modified. </param>
-        internal KeyValue(string key, string contentType, string value, DateTimeOffset? lastModified)
+        internal ConfigurationSetting(string key, string contentType, string value, DateTimeOffset? lastModified)
         {
             Key = key;
             ContentType = contentType;

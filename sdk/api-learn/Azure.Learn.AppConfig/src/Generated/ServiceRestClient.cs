@@ -64,7 +64,7 @@ namespace Azure.Learn.AppConfig
         /// <param name="key"> The key of the key-value to retrieve. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="key"/> is null. </exception>
-        public async Task<Response<KeyValue>> GetKeyValueAsync(string key, CancellationToken cancellationToken = default)
+        public async Task<Response<ConfigurationSetting>> GetKeyValueAsync(string key, CancellationToken cancellationToken = default)
         {
             if (key == null)
             {
@@ -77,9 +77,9 @@ namespace Azure.Learn.AppConfig
             {
                 case 200:
                     {
-                        KeyValue value = default;
+                        ConfigurationSetting value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = KeyValue.DeserializeKeyValue(document.RootElement);
+                        value = ConfigurationSetting.DeserializeConfigurationSetting(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -91,7 +91,7 @@ namespace Azure.Learn.AppConfig
         /// <param name="key"> The key of the key-value to retrieve. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="key"/> is null. </exception>
-        public Response<KeyValue> GetKeyValue(string key, CancellationToken cancellationToken = default)
+        public Response<ConfigurationSetting> GetKeyValue(string key, CancellationToken cancellationToken = default)
         {
             if (key == null)
             {
@@ -104,9 +104,9 @@ namespace Azure.Learn.AppConfig
             {
                 case 200:
                     {
-                        KeyValue value = default;
+                        ConfigurationSetting value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = KeyValue.DeserializeKeyValue(document.RootElement);
+                        value = ConfigurationSetting.DeserializeConfigurationSetting(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
